@@ -6,33 +6,48 @@
 #include "WS2812.pio.h" // This header file gets produced during compilation from the WS2812.pio file
 #include "drivers/logging/logging.h"
 
-#define LED_PIN 14
+#include "drivers/leds.h" //---
+
+// COULD ALSO HAVE boardPins.h TO BE ABLE TO CHANGE PINS EASILY FOR THE BOARD, AS WELL AS NUM OF LEDS
+// AND ADD INCLUDE.H 
+
+// setting the colours and led state here for now - then control stuff and functionality goes in led.cpp
+
 
 int main()
 {
     stdio_init_all();
 
-    // Initialise PIO0 to control the LED chain
-    uint pio_program_offset = pio_add_program(pio0, &ws2812_program);
-    ws2812_program_init(pio0, 0, pio_program_offset, LED_PIN, 800000, false);
-    uint32_t led_data [1];
+    leds_init(); 
+
 
     for (;;) {
         // Test the log system
         log(LogLevel::INFORMATION, "Hello world");
 
-        // Turn on the first LED to be a certain colour
-        uint8_t red = 0;
-        uint8_t green = 0;
-        uint8_t blue = 255;
-        led_data[0] = (red << 24) | (green << 16) | (blue << 8);
-        pio_sm_put_blocking(pio0, 0, led_data[0]);
-        sleep_ms(500);
+        // // // TESTING THE USER INTERFACE TO ASK FOR COLOUR AND LED STATES: 
+        // // cout << "Enter colour values for first LED - (R, G, B): ";
+        leds_set_rgb(0, 255, 255, 0); 
+        leds_set_rgb(1, 0, 255, 255); 
+        leds_set_rgb(2, 255, 0, 255); 
+        leds_set_rgb(6, 255, 255, 255);
+        leds_set_rgb(3, 255, 0, 0);
+        leds_set_rgb(4, 0, 255, 0);
+        leds_set_rgb(5, 0, 0, 255);
+        leds_set_rgb(7, 255, 100, 0);
+        leds_set_rgb(8, 100, 0, 255);
+        leds_set_rgb(9, 255, 0, 100);
+        leds_set_rgb(10, 0, 255, 100);
+        leds_set_rgb(11, 100, 255, 0);
 
-        // Set the first LED off 
-        led_data[0] = 0;
-        pio_sm_put_blocking(pio0, 0, led_data[0]);
-        sleep_ms(500);
+        update_leds(); // Update the LEDs with the current data
+
+        sleep_ms(1000); // Wait for 1 second
+
+        leds_off(); // Turn off all LEDs
+        sleep_ms(500); // Wait for 0.5 seconds
+
+       
     }
 
     return 0;
