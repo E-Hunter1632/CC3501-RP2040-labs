@@ -35,6 +35,8 @@ if(CrossCompiling)
         src/drivers/leds.cpp
         src/boardPins.h
         src/drivers/lis3dh.cpp
+        src/accelerometer_task.cpp
+        src/leds_task.cpp
     )
     target_include_directories(labs
         PUBLIC 

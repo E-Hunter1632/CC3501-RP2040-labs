@@ -1,5 +1,7 @@
 #pragma once
 
+#define SW1 15 // GPIO pin for the switch
+
 #define LED_PIN 14
 // #define NUM_LEDS 12
 
