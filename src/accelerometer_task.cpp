@@ -12,6 +12,9 @@
 
 #include "accelerometer_task.h" // Include the accelerometer task file for functionality
 
+#define UART_TX_PIN 8 // UART TX pin for sending data to the Bluetooth module
+#define UART_RX_PIN 9 // UART RX pin for receiving data from the Bluetooth module
+
 int accelerometer_task()
 {
     stdio_init_all();
@@ -20,6 +23,16 @@ int accelerometer_task()
     leds_off(); // Turn off all LEDs initially in case some haven't reset from prior task. 
 
     accel_init(); // Initialize the accelerometer
+
+    static char buf [100];
+        // set up uart 1:
+        uart_init(uart1, 115200); // Initialize UART1 with a baud rate of 115200
+        gpio_set_function(UART_TX_PIN, GPIO_FUNC_UART); // Set the TX pin
+        gpio_set_function(UART_RX_PIN, GPIO_FUNC_UART); // Set the RX pin
+        // uart_set_hw_flow(uart1, false, false); // Disable hardware flow control
+        // uart_set_format(uart1, 8, 1, UART_PARITY_NONE); // Set the format to 8 data bits, 1 stop bit, no parity
+        // uart_set_fifo_enabled(uart1, false); // Disable FIFO for simplicity
+        uart_set_baudrate(uart1, 115200); // Set the baud rate to 115200
 
     // Testing to read the WHO_AM_I register - Works. 
     uint8_t deviceID = 0x33;
@@ -71,7 +84,13 @@ int accelerometer_task()
         // convert raw data to g's:
         float z_g = (float)z_raw_data*0.001f; // Assuming 2g sensitivity, 16384 LSB/g
         printf("Accelerometer z_g: %f\n", z_g); // Print the accelerometer data in g's
-       
+
+
+        // sending data to uart1 (to be sent to bt module):
+        snprintf(buf, 100, "%f,%f,%f\n", x_g, y_g, z_g);
+        uart_puts(uart1, buf); // Send the data to the UART1 (to be sent to BT module)
+    
+
 
         // Driving the LEDs based on accelerometer data as for the 'bubble'/'spirit' level: 
         // (For 'bubble'/'spirit' level, LEDs are opposide direction as 'bubble' 'floats' upwards of direction.)

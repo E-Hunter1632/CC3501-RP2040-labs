@@ -1,5 +1,3 @@
-#pragma once
-
 #include <stdio.h>
 #include "pico/stdlib.h"
 #include "hardware/i2c.h"
@@ -10,12 +8,10 @@
 #include "pico/stdlib.h"
 #include "hardware/gpio.h"
 #include "hardware/pio.h"
+#include "drivers/microphone.h" 
 #include "boardPins.h"
 #include "hardware/adc.h"
+#pragma once
+#include "drivers/leds.h"
 
-#define FFT_LEN 1024 // Size of the microphone buffer
-
-// Initialize the microphone
-void microphone_init();
-
-void microphone_read(uint16_t *data, size_t length); // Read microphone data into a buffer
+int microphone_task();

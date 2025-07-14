@@ -10,9 +10,13 @@
 
 #include "drivers/leds.h" //---
 #include "drivers/lis3dh.h" // Include the accelerometer driver
+#include "drivers/microphone.h" // Include the microphone driver
+#include "drivers/button.h" // Include the button driver
 
 #include "accelerometer_task.h" // Include the accelerometer task file for functionality
 #include "leds_task.h"
+#include "microphone_task.h" // Include the microphone task file for functionality
+// #include "microphone_task.h" // Include the microphone task file for functionality
 
 // Define the button callback function
 void button_callback(uint gpio, uint32_t events) {
@@ -37,8 +41,8 @@ int main()
     // switch / case statement to switch between accelerometer and LED tasks using button press: 
     gpio_init(SW1); // Initialize the switch GPIO pin
     gpio_set_dir(SW1, GPIO_IN); // Set the switch pin as input
-    gpio_set_irq_enabled_with_callback(SW1, GPIO_IRQ_EDGE_FALL, true, &button_callback); // Set up an interrupt for the switch pin
-    int option = 1; // Variable to keep track of the current task option
+    gpio_set_irq_enabled_with_callback(SW1, GPIO_IRQ_EDGE_FALL, true, &button_callback); // Set up an interrupt for the switch pin - look for rising edge (button press) and call the button_callback function
+    int option = 2; // Variable to keep track of the current task option
     if (option == 0) {
         // Run the LED task
         leds_task();
@@ -47,8 +51,10 @@ int main()
         accelerometer_task();
     } else if (option == 2) {
         // Run the microphone task (if implemented)
-        printf("Microphone task is not implemented yet.\n"); // just to see if it works. 
-        // microphone_task(); // Uncomment this line when the microphone task is implemented
+        microphone_task(); // Uncomment this line when the microphone task is implemented
+        printf("Running microphone task...\n");
+
+
     }
     if (option > 2) {
         option = 0; // Reset the option if it exceeds the number of tasks & to reset task selection (ie, go back to leds after mic.)
