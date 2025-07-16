@@ -7,4 +7,4 @@
 #include "WS2812.pio.h" // This header file gets produced during compilation from the WS2812.pio file
 #include "drivers/leds.h"
 
-int leds_task();
+void leds_task(void);

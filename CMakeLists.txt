@@ -60,6 +60,7 @@ if(CrossCompiling)
         src/leds_task.cpp
         src/drivers/microphone.cpp
         src/microphone_task.cpp
+        src/program_manager.cpp
     )
     target_include_directories(labs
         PUBLIC 

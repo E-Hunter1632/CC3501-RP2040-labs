@@ -59,7 +59,7 @@ int microphone_task() {
         //  Fill in each element in the buffer by taking the raw ADC values and subtracting off the DC bias
         for (int i = 0; i < 1024; i++) {
             time_domain_sig[i] = (int16_t)(adc_data[i] - dc_bias); // Convert to int16_t and center around 0 - ?
-            time_domain_sig[i] = (adc_data[i] - dc_bias) << 4;
+            time_domain_sig[i] = (adc_data[i] - dc_bias) << 4; // MAY NOT NEED THIS ----------------
         }
         // ADC has 12 bits, filling Q15 fixed point number, left shift by 3 bits to fit into Q15 format. (can also increase to 5 bits). 
         for (int i = 0; i < 1024; i++) {
@@ -121,7 +121,7 @@ int microphone_task() {
         // Using 0-indexed C arrays, bin 512 is the highest frequency present.
         // if 
 
-    const int THRESHOLD = 7; // Choose a threshold based on testing
+    const int THRESHOLD = 10; // Choose a threshold based on testing
 
     // leds_off(); // Start with all LEDs off
 

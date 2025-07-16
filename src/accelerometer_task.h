@@ -1,13 +1,7 @@
-#include <stdio.h>
-#include "pico/stdlib.h"
-#include "hardware/i2c.h"
-#include "hardware/gpio.h"
-#include "drivers/logging/logging.h"
-#include <stdio.h>
-#include <stdint.h>
-#include "pico/stdlib.h"
-#include "hardware/gpio.h"
-#include "hardware/pio.h"
-#include "drivers/lis3dh.h" // Include the accelerometer driver
+#ifndef ACCELEROMETER_TASK_H
+#define ACCELEROMETER_TASK_H
 
-int accelerometer_task();
+void accelerometer_task_init();
+void accelerometer_task_loop();
+
+#endif

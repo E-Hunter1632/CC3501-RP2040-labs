@@ -10,7 +10,7 @@
 #include "boardPins.h"
 
 
-int leds_task()
+void leds_task(void)
 {
     stdio_init_all();
 
@@ -22,7 +22,7 @@ int leds_task()
     gpio_init(SW1); // Initialize the switch GPIO pin
     gpio_set_dir(SW1, GPIO_IN); // Set the switch pin as input
 
-    for (;;) {
+    // for (;;) {
         // Cycle colours of leds like a rainbow: 
         for (int i = 1; i < 12; i++) {
             // Set the color of each LED in the chain
@@ -64,6 +64,6 @@ int leds_task()
             sleep_ms(50);
         }
 
-    }
-    return 0;
+    // }
+    // return 0;
 }
